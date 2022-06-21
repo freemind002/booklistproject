@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block bar %}
+    <div class="col-md-9" style="justify-content:flex-end;">
+        <h1 class="page-header">出版社管理頁面</h1>
+        <div class="panel panel-primary">
+            <!--Default panel contents-->
+            <div class="panel-heading">修改出版社</div>
+            <div class="panel-body">
+                <div class="row" style="margin-bottom:15px">
+                    <div class="col-md-4">
+                        <div class="input-group"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block main %}
+    <form action="" method="post">
+    {% csrf_token %}
+        <!-- <p><input type="text" name="id" value="{{ forloop.counter }}"></p> -->
+        <p><input type="text" name="book_publisher" value="{{ book_publisher_obj.book_publisher }}"></p>
+        <p><button type="submit" class="btn">提交</button></p>
+    </form>
+{% endblock %}

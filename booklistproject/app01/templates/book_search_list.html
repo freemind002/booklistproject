@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block bar %}
+    <div class="col-md-9" style="justify-content: flex-end;">
+        <h1 class="page-header">圖書管理頁面</h1>
+        <div class="panel panel-primary">
+            <!--Default panel contents-->
+            <div class="panel-heading">圖書列表</div>
+            <div class="panel-body">
+                <div class="row" style="margin-bottom: 15px">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search for...">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">搜索</button>
+                                </span>
+                        </div><!--/input-group-->
+                    </div><!--/.col-md-4-->
+                    <div class="col-md-2 pull-right">
+                        <a class="btn btn-success" href="/app01/add_book/">新增圖書</a>
+                    </div>
+                    <div class="col-md-2 pull-right">
+                        <a class="btn btn-success" href="/app01/add_book_isbn/">新增圖書_ISBN</a>
+                    </div>
+                    <div style="width: 100px;"></div>
+                    <div class="col-md-2 pull-right">
+                        <a class="btn btn-success" href="/app01/add_book/">匯出CSV</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block main %}
+<table border="1" class="table table-hover table-bordered">
+    <thread>
+        <tr>
+            <th>序號</th>
+            <th>ISBN</th>
+            <th>書本名稱</th>
+            <th>作者名稱</th>
+            <th>出版社名稱</th>
+            <th>數量</th>
+            <th>操作</th>
+        </tr>
+    </thread>
+    <tbody>
+        {% for book_obj in book_obj_list %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ book_obj.isbn }}</td>
+                <td>{{ book_obj.bookname }}</td>
+                <td>{{ book_obj.book_author }}</td>
+                <td>{{ book_obj.book_publisher }}</td>
+                <td>{{ book_obj.book_count }}</td>
+                <td>
+                    <a href="/app01/edit_book/?id={{ book_obj.id }}">修改</a>
+                    <a href="/app01/delete_book/?id={{ book_obj.id }}">刪除</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

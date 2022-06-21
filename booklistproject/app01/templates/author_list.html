@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block bar %}
+    <div class="col-md-9" style="justify-content: flex-end">
+        <h1 class="panel panel-primary">作者管理頁面</h1>
+            <!--Default pane contents-->
+        <div class="panel-heading">作者列表</div>
+        <div class="panel-body">
+            <div class="row" style="margin-bottom: 15px">
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="search for...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">搜索</button>
+                            </span>
+                    </div><!--/input-group-->
+                </div><!--/.col-md-4-->                
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block main %}
+    <table border="1" class="table table-hover table-bordered">
+        <thread>
+            <tr>
+                <th>序號</th>
+                <th>作者名稱</th>
+                <th>圖書種類</th>
+                <th>圖書數量</th>
+                <th>操作</th>
+            </tr>
+        </thread>
+        <tbody>
+            {% for author_count_obj in author_count_list %}
+                <tr>
+                    <td>{{ forloop.counter0|add:page_of_author_count_list.start_index }}</td>
+                    <td>{{ author_count_obj.book_author }}</td>
+                    <td>{{ author_count_obj.res_author_book_count }}</td>
+                    <td>{{ author_count_obj.res_author_book_sum }}</td>
+                    <td>
+                        <a href="/app01/edit_author/?book_author={{ author_count_obj.book_author }}">修改</a>
+                        <a href="/app01/delete_author/?book_author={{ author_count_obj.book_author }}">刪除</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div>
+        <!-- 為什麼沒有顯示效果？ -->
+        <!-- https://www.runoob.com/bootstrap/bootstrap-pagination.html -->
+        <ul class="pagination">
+            <li>
+                {% if page_of_author_count_list.has_previous %}
+                    <a href="?page={{ page_of_author_list.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true" >&laquo;</span>
+                    </a>
+                {% else %}
+                    <span aria-hidden="true">&laquo;</span>
+                {% endif %}
+             </li>
+        {% for page_num in page_range %}
+            {% if page_num == page_of_author_count_list.number %}
+                <li class="active"><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+            {% else %}
+                {% if page_num == '...' %}
+                    <li><span>{{ page_num }}</span></li>
+                {% else %}
+                    <li><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+                {% endif %}
+            {% endif %}        
+        {% endfor %}
+            <li>
+            {% if page_of_author_count_list.has_next %}
+                <a href="?page={{ page_of_author_count_list.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            {% else %}
+                <span aria-hidden="true">&raquo;</span>
+            {% endif %}
+             </li>
+         </ul>
+         <p>第  {{ page_of_author_count_list.start_index }}-{{ page_of_author_count_list.end_index }} 筆/共 {{ page_of_author_count_list.paginator.count }} 筆</p>
+         <p>第  {{ page_of_author_count_list.number }} 頁/共 {{ page_of_author_count_list.paginator.num_pages }} 頁</p>
+    </div>
+    {% endblock %}

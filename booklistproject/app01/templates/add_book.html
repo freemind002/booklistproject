@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block bar %}
+    <div class="col-md-9" style="justify-content: flex-end">
+        <h1 class="panel panel-primary">圖書管理頁面</h1>
+            <!--Default pane contents-->
+        <div class="panel-heading">添加圖書</div>
+        <div class="panel-body"><!-</div>
+    </div>
+{% endblock %}
+
+{% block main %}
+    <form action="" method="post">
+    {% csrf_token %}
+        <p>ISBN<input type="number" min="0" name="isbn"></p>
+        <p>書本名稱<input type="text" name="bookname"></p>
+        <p>作者名稱<input type="text" name="book_author"></p>
+        <p>出版社名稱<input type="text" name="book_publisher"></p>
+        <p>數量<input type="number" min="1" name="book_count"></p>
+        <p><button type="submit" class="btn">提交</button></p>
+    </form>
+{% endblock %}

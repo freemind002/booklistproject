@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block bar %}
+    <div class="col-md-9" style="justify-content:flex-end;">
+        <h1 class="page-header">圖書管理頁面</h1>
+        <div class="panel panel-primary">
+            <!--Default panel contents-->
+            <div class="panel-heading">修改圖書</div>
+            <div class="panel-body">
+                <div class="row" style="margin-bottom:15px">
+                    <div class="col-md-4">
+                        <div class="input-group"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block main %}
+    <form action="" method="post">
+    {% csrf_token %}
+        <p><input type="hidden" name="id" value="{{ book_obj.id }}"></p>
+        <p>ISBN：<input type="number" min="0" name="isbn" value="{{ book_obj.isbn }}"></p>
+        <p>書本名稱：<input type="text" name="bookname" value="{{ book_obj.bookname }}"></p>
+        <p>作者名稱：<input type="text" name="book_author" value="{{ book_obj.book_author }}"></p>
+        <p>出版社名稱：<input type="text" name="book_publisher" value="{{ book_obj.book_publisher}}"></p>
+        <p>數量：<input type="number" min="1" name="book_count" value="{{ book_obj.book_count }}"></p>
+        <p><button type="submit" class="btn">提交</button></p>
+    </form>
+{% endblock %}

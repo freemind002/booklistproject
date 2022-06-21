@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block bar %}
+    <div class="col-md-9" style="justify-content: flex-end;">
+        <h1 class="page-header">圖書管理頁面</h1>
+        <div class="panel panel-primary">
+            <!--Default panel contents-->
+            <div class="panel-heading">圖書列表</div>
+            <div class="panel-body">
+                <div class="row" style="margin-bottom: 15px">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="book_list_search" placeholder="Search for...">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">搜索</button>
+                                </span>
+                        </div><!--/input-group-->
+                    </div><!--/.col-md-4-->
+                    <div class="col-md-2 pull-right">
+                        <a class="btn btn-success" href="/app01/add_book/">新增圖書</a>
+                    </div>
+                    <div class="col-md-2 pull-right">
+                        <a class="btn btn-success" href="/app01/add_book_isbn/">新增圖書_ISBN</a>
+                    </div>
+                    <div style="width: 100px;"></div>
+                    <div class="col-md-2 pull-right">
+                        <a class="btn btn-success" href="/app01/make_csv_view/">匯出CSV</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block main %}
+<table border="1" class="table table-hover table-bordered">
+    <thread>
+        <tr>
+            <th>序號</th>
+            <th>ISBN</th>
+            <th>書本名稱</th>
+            <th>作者名稱</th>
+            <th>出版社名稱</th>
+            <th>數量</th>
+            <th>操作</th>
+        </tr>
+    </thread>
+    <tbody>
+        {% for book_obj in page_of_book_list.object_list %}
+            <tr>
+                <!-- 思考如何讓第二頁的編號延續下去？ -->
+                <!-- <td>{{ forloop.paraentloop }}</td> -->
+                <!-- <td>{{ page_of_book_list.end_index }}</td> -->
+                <td>{{ forloop.counter0|add:page_of_book_list.start_index }}</td>
+                <td>{{ book_obj.isbn }}</td>
+                <td>{{ book_obj.bookname }}</td>
+                <td>{{ book_obj.book_author }}</td>
+                <td>{{ book_obj.book_publisher }}</td>
+                <td>{{ book_obj.book_count }}</td>
+                <td>
+                    <a href="/app01/edit_book/?id={{ book_obj.id }}">修改</a>
+                    <a href="/app01/delete_book/?id={{ book_obj.id }}">刪除</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>    
+</table>
+<div>
+    <!-- 思考如何讓出版社、作者都能夠共用 -->
+    <!-- 為什麼沒有顯示效果？ -->
+    <!-- https://www.runoob.com/bootstrap/bootstrap-pagination.html -->
+    <ul class="pagination">
+        <li>
+            {% if page_of_book_list.has_previous %}
+                <a href="?page={{ page_of_book_list.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true" >&laquo;</span>
+                </a>
+            {% else %}
+                <span aria-hidden="true">&laquo;</span>
+            {% endif %}
+         </li>
+    {% for page_num in page_range %}
+        {% if page_num == page_of_book_list.number %}
+            <li class="active"><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+        {% else %}
+            {% if page_num == '...' %}
+                <li><span>{{ page_num }}</span></li>
+            {% else %}
+                <li><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+            {% endif %}
+        {% endif %}        
+    {% endfor %}
+        <li>
+        {% if page_of_book_list.has_next %}
+            <a href="?page={{ page_of_book_list.next_page_number }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        {% else %}
+            <span aria-hidden="true">&raquo;</span>
+        {% endif %}
+         </li>
+     </ul>
+     <p>第  {{ page_of_book_list.start_index }}-{{ page_of_book_list.end_index }} 筆/共 {{ page_of_book_list.paginator.count }} 筆</p>
+     <p>第  {{ page_of_book_list.number }} 頁/共 {{ page_of_book_list.paginator.num_pages }} 頁</p>
+</div>
+{% endblock %}
